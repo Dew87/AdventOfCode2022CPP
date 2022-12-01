@@ -8,7 +8,7 @@ using namespace std;
 
 int GetTopElvesCarriedCalories(const vector<Elf> &vSortedInput, int number)
 {
-	// vInput needs to be sorted in descending order
+	// vSortedInput needs to be sorted in descending order
 	int sum = 0;
 	if (number <= vSortedInput.size())
 	{
