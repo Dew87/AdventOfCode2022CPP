@@ -6,21 +6,30 @@
 
 using namespace std;
 
-int GetTopElvesCarriedCalories(const vector<Elf> &vSortedInput, int number)
+void ClearElvesVector(vector<Elf*> &vInput)
+{
+	for (vector<Elf*>::iterator i = vInput.begin(); i != vInput.end(); i++)
+	{
+		delete *i;
+	}
+	vInput.clear();
+}
+
+int GetTopElvesCarriedCalories(vector<Elf*> &vSortedInput, int number)
 {
 	// vSortedInput needs to be sorted in descending order
 	int sum = 0;
 	if (number <= vSortedInput.size())
 	{
-		for (int i = 0; i < number; i++)
+		for (size_t i = 0; i < number; i++)
 		{
-			sum += vSortedInput[i].carriedCalories;
+			sum += vSortedInput[i]->carriedCalories;
 		}
 	}
 	return sum;
 }
 
-void InputElvesCalories(vector<Elf> &vOutput)
+void InputElvesCalories(vector<Elf*> &vOutput)
 {
 	vector<int> backpack;
 	cout << "Start of elves calories input (Numbers or separation by blank line Invalid input to end)\n";
@@ -30,7 +39,7 @@ void InputElvesCalories(vector<Elf> &vOutput)
 		getline(cin, input);
 		if (input == "")
 		{
-			vOutput.push_back(Elf(backpack));
+			vOutput.push_back(new Elf(backpack));
 			backpack.clear();
 		}
 		else
@@ -42,7 +51,7 @@ void InputElvesCalories(vector<Elf> &vOutput)
 			}
 			catch (exception e)
 			{
-				vOutput.push_back(Elf(backpack));
+				vOutput.push_back(new Elf(backpack));
 				backpack.clear();
 				break;
 			}
@@ -52,16 +61,16 @@ void InputElvesCalories(vector<Elf> &vOutput)
 }
 
 template <typename T>
-void PrintVector(const vector<T> &vInput, const char *vName, const char* separation)
+void PrintVector(const vector<T*> &vInput, const char *vName, const char* separation)
 {
 	cout << "Start of " << vName << "[" << vInput.size() << "] print\n";
 	if (0 < vInput.size())
 	{
 		for (size_t i = 0; i < vInput.size() - 1; i++)
 		{
-			cout << vInput[i] << separation;
+			cout << *vInput[i] << separation;
 		}
-		cout << vInput[vInput.size() - 1] << "\n";
+		cout << *vInput[vInput.size() - 1] << "\n";
 	}
 	cout << "End of " << vName << " print\n\n";
 }
@@ -74,22 +83,22 @@ int main()
 
 	int number = 3;
 
-	vector<Elf> elves;
-	vector<Elf> sortedElves;
+	vector<Elf*> elves;
 
 	InputElvesCalories(elves);
 	PrintVector(elves, "Elves", "\n\n");
 
 	cout << "Sort elves by carried calories descending order\n";
-	sortedElves = elves;
-	sort(sortedElves.begin(), sortedElves.end(), [](Elf &a, Elf &b) { return a.carriedCalories > b.carriedCalories; });
-	PrintVector(sortedElves, "Sorted elves", "\n\n");
+	sort(elves.begin(), elves.end(), [](Elf *a, Elf *b) { return a->carriedCalories > b->carriedCalories; });
+	PrintVector(elves, "Sorted elves", "\n\n");
 
-	int topElfCarriedCalories = GetTopElvesCarriedCalories(sortedElves, 1);
-	int topElvesCarriedCalories = GetTopElvesCarriedCalories(sortedElves, number);
+	int topElfCarriedCalories = GetTopElvesCarriedCalories(elves, 1);
+	int topElvesCarriedCalories = GetTopElvesCarriedCalories(elves, number);
 
 	cout << "Top elf carried calories: " << topElfCarriedCalories << "\n";
 	cout << "Top " << number << " elves carried calories : " << topElvesCarriedCalories << "\n";
+
+	ClearElvesVector(elves);
 
 	return 0;
 }

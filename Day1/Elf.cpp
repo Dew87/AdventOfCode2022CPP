@@ -10,7 +10,7 @@ Elf::Elf(vector<int> backpack) : backpack(backpack)
 void Elf::CalculateCarriedCalories()
 {
 	int sum = 0;
-	for (int i = 0; i < backpack.size(); i++)
+	for (size_t i = 0; i < backpack.size(); i++)
 	{
 		sum += backpack[i];
 	}
@@ -21,7 +21,7 @@ std::ostream& operator << (std::ostream &o, const Elf &elf)
 {
 	if (0 < elf.backpack.size())
 	{
-		for (int i = 0; i < elf.backpack.size() - 1; i++)
+		for (size_t i = 0; i < elf.backpack.size() - 1; i++)
 		{
 			o << elf.backpack[i] << "\n";
 		}
