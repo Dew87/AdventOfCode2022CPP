@@ -3,74 +3,41 @@
 #include <string>
 #include <vector>
 
+#define DRAW_OUTCOME 0
+#define DRAW_SCORE 3
+#define LOSS_OUTCOME -1
+#define LOSS_SCORE 0
+#define WIN_OUTCOME 1
+#define WIN_SCORE 6
+
 using namespace std;
+
+const int DIFFERENCE_OPPONENT_PLAYER = 'A' - 'X';
+const int DIFFERENCE_OUTCOME_PLAYER = DRAW_OUTCOME - 'Y';
 
 int EvaluateGuideNew(vector<Entry> &vInput)
 {
 	int sum = 0;
 	for (vector<Entry>::iterator i = vInput.begin(); i != vInput.end(); i++)
 	{
-		int score_outcome = 0;
-		switch ((*i).player)
-		{
-		case 'X':
-			switch ((*i).opponent)
-			{
-			case 'A':
-				(*i).shape = 'C';
-				break;
-			case 'B':
-				(*i).shape = 'A';
-				break;
-			case 'C':
-				(*i).shape = 'B';
-				break;
-			default:
-				(*i).shape = 'A' - 1;
-				cout << "Invalid opponent value: " << *i << "\n";
-				break;
-			}
-			break;
-		case 'Y':
-			score_outcome = 3;
-			switch ((*i).opponent)
-			{
-			case 'A':
-			case 'B':
-			case 'C':
-				(*i).shape = (*i).opponent;
-				break;
-			default:
-				(*i).shape = 'A' - 1;
-				cout << "Invalid opponent value: " << *i << "\n";
-				break;
-			}
-			break;
-		case 'Z':
-			score_outcome = 6;
-			switch ((*i).opponent)
-			{
-			case 'A':
-				(*i).shape = 'B';
-				break;
-			case 'B':
-				(*i).shape = 'C';
-				break;
-			case 'C':
-				(*i).shape = 'A';
-				break;
-			default:
-				(*i).shape = 'A' - 1;
-				cout << "Invalid opponent value: " << *i << "\n";
-				break;
-			}
-			break;
-		default:
-			(*i).shape = 'A' - 1;
-			cout << "Invalid player value: " << *i << "\n";
-			break;
-		}
-		int score_shape = (*i).shape - 'A' + 1;
+		int outcome = (*i).player + DIFFERENCE_OUTCOME_PLAYER;
+
+		// Calculate player shape depending on outcome. Wrap around if out of bounds
+		char shape = (*i).opponent + outcome;
+		shape = shape == 'A' - 1 ? 'C' : shape;
+		shape = shape == 'C' + 1 ? 'A' : shape;
+
+		// Save shape to guide
+		(*i).shape = shape;
+
+		// Calculate score for outcome, 0 loss, 3 draw, 6 win
+		int score_outcome = LOSS_SCORE;
+		score_outcome = outcome == WIN_OUTCOME ? WIN_SCORE : score_outcome;
+		score_outcome = outcome == DRAW_OUTCOME ? DRAW_SCORE : score_outcome;
+
+		// Calculate score for shape, 1 rock, 2 paper, 3 scissors
+		int score_shape = shape - 'A' + 1;
+
 		sum += score_shape + score_outcome;
 	}
 	return sum;
@@ -81,52 +48,22 @@ int EvaluateGuideOld(const vector<Entry> &vInput)
 	int sum = 0;
 	for (vector<Entry>::const_iterator i = vInput.begin(); i != vInput.end(); i++)
 	{
-		int score_shape = (*i).player - 'X' + 1;
-		int score_outcome = 0;
-		switch ((*i).opponent)
-		{
-		case 'A':
-			switch ((*i).player)
-			{
-			case 'X':
-				score_outcome = 3;
-				break;
-			case 'Y':
-				score_outcome = 6;
-				break;
-			default:
-				break;
-			}
-			break;
-		case 'B':
-			switch ((*i).player)
-			{
-			case 'Y':
-				score_outcome = 3;
-				break;
-			case 'Z':
-				score_outcome = 6;
-				break;
-			default:
-				break;
-			}
-			break;
-		case 'C':
-			switch ((*i).player)
-			{
-			case 'X':
-				score_outcome = 6;
-				break;
-			case 'Z':
-				score_outcome = 3;
-				break;
-			default:
-				break;
-			}
-			break;
-		default:
-			break;
-		}
+		char opponent = (*i).opponent;
+		char player = (*i).player + DIFFERENCE_OPPONENT_PLAYER;
+
+		// Calculate outcome to -1 loss, 0 draw, 1 win. Wrap around if out of bounds
+		int outcome = player - opponent;
+		outcome = outcome == 2 ? LOSS_OUTCOME : outcome;
+		outcome = outcome == -2 ? WIN_OUTCOME : outcome;
+
+		// Calculate score for outcome, 0 loss, 3 draw, 6 win
+		int score_outcome = LOSS_SCORE;
+		score_outcome = outcome == WIN_OUTCOME ? WIN_SCORE : score_outcome;
+		score_outcome = outcome == DRAW_OUTCOME ? DRAW_SCORE : score_outcome;
+
+		// Calculate score for shape, 1 rock, 2 paper, 3 scissors
+		int score_shape = player - 'A' + 1;
+
 		sum += score_shape + score_outcome;
 	}
 	return sum;
