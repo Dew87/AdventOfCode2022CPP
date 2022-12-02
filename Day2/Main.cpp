@@ -3,17 +3,14 @@
 #include <string>
 #include <vector>
 
-#define DRAW_OUTCOME 0
 #define DRAW_SCORE 3
-#define LOSS_OUTCOME -1
 #define LOSS_SCORE 0
-#define WIN_OUTCOME 1
 #define WIN_SCORE 6
 
 using namespace std;
 
 const int DIFFERENCE_OPPONENT_PLAYER = 'A' - 'X';
-const int DIFFERENCE_OUTCOME_PLAYER = DRAW_OUTCOME - 'Y';
+const int DIFFERENCE_OUTCOME_PLAYER = -'Y';
 
 int EvaluateGuideNew(vector<Entry> &vInput)
 {
@@ -30,10 +27,10 @@ int EvaluateGuideNew(vector<Entry> &vInput)
 		// Save shape to guide
 		(*i).shape = shape;
 
-		// Calculate score for outcome, 0 loss, 3 draw, 6 win
+		// Calculate score for outcome
 		int score_outcome = LOSS_SCORE;
-		score_outcome = outcome == WIN_OUTCOME ? WIN_SCORE : score_outcome;
-		score_outcome = outcome == DRAW_OUTCOME ? DRAW_SCORE : score_outcome;
+		score_outcome = outcome == 1 ? WIN_SCORE : score_outcome;
+		score_outcome = outcome == 0 ? DRAW_SCORE : score_outcome;
 
 		// Calculate score for shape, 1 rock, 2 paper, 3 scissors
 		int score_shape = shape - 'A' + 1;
@@ -53,13 +50,13 @@ int EvaluateGuideOld(const vector<Entry> &vInput)
 
 		// Calculate outcome to -1 loss, 0 draw, 1 win. Wrap around if out of bounds
 		int outcome = player - opponent;
-		outcome = outcome == 2 ? LOSS_OUTCOME : outcome;
-		outcome = outcome == -2 ? WIN_OUTCOME : outcome;
+		outcome = outcome == 2 ? -1 : outcome;
+		outcome = outcome == -2 ? 1 : outcome;
 
-		// Calculate score for outcome, 0 loss, 3 draw, 6 win
+		// Calculate score for outcome
 		int score_outcome = LOSS_SCORE;
-		score_outcome = outcome == WIN_OUTCOME ? WIN_SCORE : score_outcome;
-		score_outcome = outcome == DRAW_OUTCOME ? DRAW_SCORE : score_outcome;
+		score_outcome = outcome == 1 ? WIN_SCORE : score_outcome;
+		score_outcome = outcome == 0 ? DRAW_SCORE : score_outcome;
 
 		// Calculate score for shape, 1 rock, 2 paper, 3 scissors
 		int score_shape = player - 'A' + 1;
