@@ -61,7 +61,7 @@ void InputElvesCalories(vector<Elf*> &vOutput)
 }
 
 template <typename T>
-void PrintVector(const vector<T*> &vInput, const char *vName, const char* separation)
+void PrintVector(const vector<T*> &vInput, const char *vName, const char *separation)
 {
 	cout << "Start of " << vName << "[" << vInput.size() << "] print\n";
 	if (0 < vInput.size())
