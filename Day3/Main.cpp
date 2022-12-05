@@ -26,11 +26,7 @@ int CheckGroupBadges(const vector<Rucksack> &vInput, size_t groupSize)
 				{
 					size_t indexA = vInput[k].inventoryA.find(c);
 					size_t indexB = vInput[k].inventoryB.find(c);
-
-					size_t index = string::npos;
-					index = indexA != string::npos ? indexA : index;
-					index = indexB != string::npos ? indexB : index;
-					if (index != string::npos)
+					if (indexA != string::npos || indexB != string::npos)
 					{
 						occurences++;
 					}
