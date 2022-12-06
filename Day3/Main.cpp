@@ -118,7 +118,7 @@ void PrintVector(const vector<T> &vInput, const char *vName, const char* separat
 int main()
 {
 	cout << "Advent of code 2022\n";
-	cout << "Day 2: Rock Paper Scissors\n";
+	cout << "Day 3: Rucksack Reorganization\n";
 	cout << "Program by David Erikssen\n\n";
 
 	int number = 3;
