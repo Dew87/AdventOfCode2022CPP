@@ -1,4 +1,4 @@
-#include "Entry.h"
+#include "GuideEntry.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,10 +12,10 @@ using namespace std;
 const int DIFFERENCE_OPPONENT_PLAYER = 'A' - 'X';
 const int DIFFERENCE_OUTCOME_PLAYER = -'Y';
 
-int EvaluateGuideNew(vector<Entry> &vInput)
+int EvaluateGuideNew(vector<GuideEntry> &vInput)
 {
 	int sum = 0;
-	for (vector<Entry>::iterator i = vInput.begin(); i != vInput.end(); i++)
+	for (vector<GuideEntry>::iterator i = vInput.begin(); i != vInput.end(); i++)
 	{
 		int outcome = (*i).player + DIFFERENCE_OUTCOME_PLAYER;
 
@@ -40,10 +40,10 @@ int EvaluateGuideNew(vector<Entry> &vInput)
 	return sum;
 }
 
-int EvaluateGuideOld(const vector<Entry> &vInput)
+int EvaluateGuideOld(const vector<GuideEntry> &vInput)
 {
 	int sum = 0;
-	for (vector<Entry>::const_iterator i = vInput.begin(); i != vInput.end(); i++)
+	for (vector<GuideEntry>::const_iterator i = vInput.begin(); i != vInput.end(); i++)
 	{
 		char opponent = (*i).opponent;
 		char player = (*i).player + DIFFERENCE_OPPONENT_PLAYER;
@@ -66,7 +66,7 @@ int EvaluateGuideOld(const vector<Entry> &vInput)
 	return sum;
 }
 
-void InputGuide(vector<Entry> &vOutput)
+void InputGuide(vector<GuideEntry> &vOutput)
 {
 	cout << "Start of guide input (A|B|C X|Y|Z Invalid input to end)\n";
 	while (true)
@@ -85,7 +85,7 @@ void InputGuide(vector<Entry> &vOutput)
 
 			if (aValid && bValid)
 			{
-				vOutput.push_back(Entry(a, b));
+				vOutput.push_back(GuideEntry(a, b));
 				continue;
 			}
 		}
@@ -115,7 +115,7 @@ int main()
 	cout << "Day 2: Rock Paper Scissors\n";
 	cout << "Program by David Erikssen\n\n";
 
-	vector<Entry> guide;
+	vector<GuideEntry> guide;
 
 	InputGuide(guide);
 	PrintVector(guide, "guide", "\n");
