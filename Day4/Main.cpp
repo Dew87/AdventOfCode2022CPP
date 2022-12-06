@@ -63,8 +63,7 @@ int OverlappingCleanupPairs(const vector<CleanupPairs> &vInput)
 	int sum = 0;
 	for (int i = 0; i < vInput.size(); i++)
 	{
-		// if (Not(No overlap))
-		if (!(vInput[i].aEnd < vInput[i].bBegin || vInput[i].bEnd < vInput[i].aBegin))
+		if (vInput[i].bBegin <= vInput[i].aEnd && vInput[i].aBegin <= vInput[i].bEnd)
 		{
 			sum++;
 		}
