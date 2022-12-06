@@ -37,25 +37,25 @@ void InputElvesCalories(vector<Elf*> &vOutput)
 	{
 		string input;
 		getline(cin, input);
-		if (input == "")
+		try
 		{
-			vOutput.push_back(new Elf(backpack));
-			backpack.clear();
+			int i = stoi(input);
+			backpack.push_back(i);
+			continue;
 		}
-		else
+		catch (exception e)
 		{
-			try
-			{
-				int i = stoi(input);
-				backpack.push_back(i);
-			}
-			catch (exception e)
+			if (!backpack.empty())
 			{
 				vOutput.push_back(new Elf(backpack));
-				backpack.clear();
-				break;
+				if (input == "")
+				{
+					backpack.clear();
+					continue;
+				}
 			}
 		}
+		break;
 	}
 	cout << "End of elves calories input\n\n";
 }
