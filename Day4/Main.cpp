@@ -10,8 +10,9 @@ int FullyContainedCleanupPairs(const vector<CleanupPairs> &vInput)
 	int sum = 0;
 	for (int i = 0; i < vInput.size(); i++)
 	{
-		// if ((a fully contains b) or (b fully contains a))
-		if ((vInput[i].aBegin <= vInput[i].bBegin && vInput[i].bEnd <= vInput[i].aEnd) || (vInput[i].bBegin <= vInput[i].aBegin && vInput[i].aEnd <= vInput[i].bEnd))
+		bool aFullyContainsB = vInput[i].aBegin <= vInput[i].bBegin && vInput[i].bEnd <= vInput[i].aEnd;
+		bool bFullyContainsA = vInput[i].bBegin <= vInput[i].aBegin && vInput[i].aEnd <= vInput[i].bEnd;
+		if (aFullyContainsB || bFullyContainsA)
 		{
 			sum++;
 		}
