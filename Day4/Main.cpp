@@ -10,14 +10,9 @@ int FullyContainedCleanupPairs(const vector<CleanupPairs> &vInput)
 	int sum = 0;
 	for (int i = 0; i < vInput.size(); i++)
 	{
-		if (vInput[i].aBegin <= vInput[i].bBegin && vInput[i].bEnd <= vInput[i].aEnd)
+		// if ((a fully contains b) or (b fully contains a))
+		if ((vInput[i].aBegin <= vInput[i].bBegin && vInput[i].bEnd <= vInput[i].aEnd) || (vInput[i].bBegin <= vInput[i].aBegin && vInput[i].aEnd <= vInput[i].bEnd))
 		{
-			// a fully contains b
-			sum++;
-		}
-		else if (vInput[i].bBegin <= vInput[i].aBegin && vInput[i].aEnd <= vInput[i].bEnd)
-		{
-			// b fully contains a
 			sum++;
 		}
 	}
@@ -63,7 +58,8 @@ int OverlappingCleanupPairs(const vector<CleanupPairs> &vInput)
 	int sum = 0;
 	for (int i = 0; i < vInput.size(); i++)
 	{
-		if (vInput[i].bBegin <= vInput[i].aEnd && vInput[i].aBegin <= vInput[i].bEnd)
+		// original : if (Not(no overlap)), removed double negation so => if (overlap)
+		if (vInput[i].aBegin <= vInput[i].bEnd && vInput[i].bBegin <= vInput[i].aEnd)
 		{
 			sum++;
 		}
