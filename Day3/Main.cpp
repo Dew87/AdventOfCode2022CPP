@@ -1,4 +1,3 @@
-#include "Rucksack.h"
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -9,24 +8,21 @@
 
 using namespace std;
 
-int CheckGroupBadges(const vector<Rucksack> &vInput, size_t groupSize)
+int CheckGroupBadges(const vector<string> &vInput, size_t groupSize)
 {
 	int sum = 0;
 	if (0 < groupSize)
 	{
 		for (int i = 0; i + groupSize - 1 < vInput.size(); i += groupSize)
 		{
-			size_t sizeA = vInput[i].inventoryA.size();
-			size_t sizeB = vInput[i].inventoryB.size();
-			for (int j = 0; j < sizeA + sizeB; j++)
+			for (int j = 0; j < vInput[i].size(); j++)
 			{
-				char c = j < sizeA ? vInput[i].inventoryA[j] : vInput[i].inventoryB[j - sizeA];
+				char c = vInput[i][j];
 				int occurences = 1;
 				for (int k = i + 1; k < i + groupSize; k++)
 				{
-					size_t indexA = vInput[k].inventoryA.find(c);
-					size_t indexB = vInput[k].inventoryB.find(c);
-					if (indexA != string::npos || indexB != string::npos)
+					size_t index = vInput[k].find(c);
+					if (index != string::npos)
 					{
 						occurences++;
 					}
@@ -52,18 +48,20 @@ int CheckGroupBadges(const vector<Rucksack> &vInput, size_t groupSize)
 	return sum;
 }
 
-int ErrorCheckRucksacks(const vector<Rucksack> &vInput)
+int ErrorCheckRucksacks(const vector<string> &vInput)
 {
 	int sum = 0;
 	for (int i = 0; i < vInput.size(); i++)
 	{
-		Rucksack rucksack = vInput[i];
-		if (rucksack.inventoryA.size() == rucksack.inventoryB.size())
+		size_t middle = vInput[i].size() / 2;
+		string inventoryA = vInput[i].substr(0, middle);
+		string inventoryB = vInput[i].substr(middle);
+		if (inventoryA.size() == inventoryB.size())
 		{
-			for (int j = 0; j < rucksack.inventoryA.size(); j++)
+			for (int j = 0; j < inventoryA.size(); j++)
 			{
-				char c = rucksack.inventoryA[j];
-				size_t index = rucksack.inventoryB.find(c);
+				char c = inventoryA[j];
+				size_t index = inventoryB.find(c);
 				if (index != string::npos)
 				{
 					if ('a' <= c && c <= 'z')
@@ -85,21 +83,19 @@ int ErrorCheckRucksacks(const vector<Rucksack> &vInput)
 	return sum;
 }
 
-void InputRucksacks(vector<Rucksack> &vInput)
+void InputRucksacks(vector<string> &vInput)
 {
 	cout << "Start of rucksacks input (Blank input to end)\n";
 	while (true)
 	{
 		string input;
 		getline(cin, input);
-		if (input == "")
+		if (input != "")
 		{
-			break;
+			vInput.push_back(input);
+			continue;
 		}
-		size_t i = input.size() / 2;
-		string inputA = input.substr(0, i);
-		string inputB = input.substr(i);
-		vInput.push_back(Rucksack(inputA, inputB));
+		break;
 	}
 	cout << "End of rucksacks input\n\n";
 }
@@ -127,7 +123,7 @@ int main()
 
 	int number = 3;
 
-	vector<Rucksack> rucksacks;
+	vector<string> rucksacks;
 
 	InputRucksacks(rucksacks);
 
