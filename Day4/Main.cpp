@@ -8,7 +8,7 @@ using namespace std;
 int FullyContainedCleanupPairs(const vector<CleanupPairs> &vInput)
 {
 	int sum = 0;
-	for (int i = 0; i < vInput.size(); i++)
+	for (size_t i = 0; i < vInput.size(); i++)
 	{
 		bool aFullyContainsB = vInput[i].aBegin <= vInput[i].bBegin && vInput[i].bEnd <= vInput[i].aEnd;
 		bool bFullyContainsA = vInput[i].bBegin <= vInput[i].aBegin && vInput[i].aEnd <= vInput[i].bEnd;
@@ -57,7 +57,7 @@ void InputCleanupPairs(vector<CleanupPairs> &vInput)
 int OverlappingCleanupPairs(const vector<CleanupPairs> &vInput)
 {
 	int sum = 0;
-	for (int i = 0; i < vInput.size(); i++)
+	for (size_t i = 0; i < vInput.size(); i++)
 	{
 		// original : if (Not(no overlap)), removed double negation so => if (overlap)
 		if (vInput[i].aBegin <= vInput[i].bEnd && vInput[i].bBegin <= vInput[i].aEnd)

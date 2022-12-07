@@ -13,9 +13,9 @@ int CheckGroupBadges(const vector<string> &vInput, size_t groupSize)
 	int sum = 0;
 	if (0 < groupSize)
 	{
-		for (int i = 0; i + groupSize - 1 < vInput.size(); i += groupSize)
+		for (size_t i = 0; i + groupSize - 1 < vInput.size(); i += groupSize)
 		{
-			for (int j = 0; j < vInput[i].size(); j++)
+			for (size_t j = 0; j < vInput[i].size(); j++)
 			{
 				char c = vInput[i][j];
 				int occurences = 1;
@@ -51,14 +51,14 @@ int CheckGroupBadges(const vector<string> &vInput, size_t groupSize)
 int ErrorCheckRucksacks(const vector<string> &vInput)
 {
 	int sum = 0;
-	for (int i = 0; i < vInput.size(); i++)
+	for (size_t i = 0; i < vInput.size(); i++)
 	{
 		size_t middle = vInput[i].size() / 2;
 		string inventoryA = vInput[i].substr(0, middle);
 		string inventoryB = vInput[i].substr(middle);
 		if (inventoryA.size() == inventoryB.size())
 		{
-			for (int j = 0; j < inventoryA.size(); j++)
+			for (size_t j = 0; j < inventoryA.size(); j++)
 			{
 				char c = inventoryA[j];
 				size_t index = inventoryB.find(c);
