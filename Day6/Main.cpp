@@ -60,7 +60,8 @@ int main()
 
 	if (packetMarkerIndex != string::npos)
 	{
-		cout << "Start-of-packet marker index[" << packetMarkerIndex + packetMarkerSize << "]: " << datastream.substr(packetMarkerIndex, packetMarkerSize) << "\n";
+		cout << "Start-of-packet marker index[" << packetMarkerIndex << "-" << packetMarkerIndex + packetMarkerSize - 1 << "]: " << datastream.substr(packetMarkerIndex, packetMarkerSize) << "\n";
+		cout << "Start-of-packet processed characters: " << packetMarkerIndex + packetMarkerSize << "\n\n";
 	}
 	else
 	{
@@ -69,7 +70,8 @@ int main()
 
 	if (messageMarkerIndex != string::npos)
 	{
-		cout << "Start-of-message marker index[" << messageMarkerIndex + messageMarkerSize << "]: " << datastream.substr(messageMarkerIndex, messageMarkerSize) << "\n";
+		cout << "Start-of-message marker index[" << messageMarkerIndex << "-" << messageMarkerIndex + messageMarkerSize - 1 << "]: " << datastream.substr(messageMarkerIndex, messageMarkerSize) << "\n";
+		cout << "Start-of-message processed characters: " << messageMarkerIndex + messageMarkerSize << "\n\n";
 	}
 	else
 	{
